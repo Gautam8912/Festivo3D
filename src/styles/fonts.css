@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "FestivoDevanagari";
+  src: url("/fonts/NotoSansDevanagari.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoBengali";
+  src: url("/fonts/NotoSansBengali.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoTelugu";
+  src: url("/fonts/NotoSansTelugu.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoTamil";
+  src: url("/fonts/NotoSansTamil.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoGujarati";
+  src: url("/fonts/NotoSansGujarati.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoKannada";
+  src: url("/fonts/NotoSansKannada.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoMalayalam";
+  src: url("/fonts/NotoSansMalayalam.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoOriya";
+  src: url("/fonts/NotoSansOriya.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoGurmukhi";
+  src: url("/fonts/NotoSansGurmukhi.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FestivoArabic";
+  src: url("/fonts/NotoSansArabic.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}

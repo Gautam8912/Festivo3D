@@ -1,0 +1,20 @@
+export default {
+  greeting: "శుభాకాంక్షలు",
+  offer: "ప్రత్యేక ఆఫర్",
+  discount: "{n}% వరకు తగ్గింపు",
+  cta: "ఈరోజే కొనుగోలు చేయండి",
+  tagline: "మాతో జరుపుకోండి",
+  festivals: {
+    Diwali: "దీపావళి",
+    Holi: "హోలీ",
+    Eid: "ఈద్",
+    Pongal: "పొంగల్",
+    Onam: "ఓణం",
+    Ugadi: "ఉగాది",
+    "Makar Sankranti": "సంక్రాంతి",
+    Dussehra: "దసరా",
+    "Ganesh Chaturthi": "వినాయక చవితి",
+    Bathukamma: "బతుకమ్మ",
+    "Ram Navami": "శ్రీరామ నవమి",
+  },
+};
