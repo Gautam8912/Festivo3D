@@ -72,6 +72,9 @@ export default function PosterEditor({ data, setData, clearSaved, notify }) {
     setData((d) => ({
       ...d,
       template: id,
+      eventDate: t.calendarDate || "",
+      artFinish: t.artFinish || "sculpted",
+      designStyle: "royal",
       colors: d.keepColours ? d.colors : templatePalette(t),
       ...localizedCopy(
         t.festival,
@@ -176,6 +179,7 @@ export default function PosterEditor({ data, setData, clearSaved, notify }) {
     ["facebook", "Facebook", "Your Facebook page", 90],
     ["cta", "Call to action", "Shop today", 100],
     ["greeting", "Regional greeting", "Your festive wishes", 140],
+    ["eventDate", "Festival date", "2026-09-14", 10],
   ];
   return (
     <main className="editor-page">
@@ -323,7 +327,13 @@ export default function PosterEditor({ data, setData, clearSaved, notify }) {
                         )}
                         <input
                           id={key}
-                          type={key === "phone" ? "tel" : "text"}
+                          type={
+                            key === "phone"
+                              ? "tel"
+                              : key === "eventDate"
+                                ? "date"
+                                : "text"
+                          }
                           value={data[key] || ""}
                           placeholder={placeholder}
                           maxLength={max}
@@ -332,10 +342,12 @@ export default function PosterEditor({ data, setData, clearSaved, notify }) {
                         {key === "offer" && (
                           <div className="suggestions">
                             {[
-                              localizedCopy(current.festival, data.language)
-                                .offer,
-                              localizedCopy(current.festival, data.language)
-                                .greeting,
+                              ...new Set([
+                                localizedCopy(current.festival, data.language)
+                                  .offer,
+                                localizedCopy(current.festival, data.language)
+                                  .greeting,
+                              ]),
                             ].map((phrase) => (
                               <button
                                 type="button"
@@ -405,6 +417,8 @@ export default function PosterEditor({ data, setData, clearSaved, notify }) {
                                   preferences.language,
                                 ),
                                 template: t.id,
+                                eventDate: t.calendarDate,
+                                artFinish: t.artFinish,
                                 colors: templatePalette(t),
                               }}
                             />

@@ -24,7 +24,7 @@ export default function Navbar({ page }) {
             ["Home", "home"],
             ["Templates", "templates"],
             ["Create Poster", "create"],
-            ["How It Works", "how-it-works"],
+            ["September Calendar", "calendar"],
             ["Features", "features"],
           ].map(([text, id]) => (
             <a

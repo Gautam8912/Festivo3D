@@ -36,3 +36,28 @@ export const festivalCatalogue = festivals.map((name) => {
     templates: templates.filter((t) => t.festival === name).map((t) => t.id),
   };
 });
+
+import { septemberRecords, calendarSources } from "./septemberObservances";
+export { calendarSources };
+export const september2026 = septemberRecords.map((record) => ({
+  ...record,
+  supportedStates:
+    record.states === "all" ? states.map((s) => s.name) : record.states,
+  panIndia: record.states === "all",
+  languages: languages.map((l) => l.code),
+  regionalClusters: record.clusters || [],
+  categories: record.recommendedCategories || businesses,
+  phrases: Object.fromEntries(
+    languages.map((l) => [l.code, localizedCopy(record.name, l.code)]),
+  ),
+  presets: templates.filter((t) => t.festival === record.name).map((t) => t.id),
+}));
+export const calendarInfo = {
+  month: 9,
+  year: 2026,
+  timeZone: "Asia/Kolkata",
+  scope:
+    "Major Hindu and regional observances, vrats, remembrance days and selected civil/Jain occasions.",
+  checkedOn: "2026-09-14",
+  note: "Reference civil dates for India—not a location-specific panchang or muhurat calculator. Regional, sectarian and family traditions may differ. Confirm ritual timings locally.",
+};

@@ -1,3 +1,4 @@
+import { septemberRecords } from "./septemberObservances";
 export const festivalAliases = {
   Diwali: ["Deepavali", "Deepawali"],
   Dussehra: ["Dasara", "Dashahara"],
@@ -7,3 +8,10 @@ export const festivalAliases = {
   Gurpurab: ["Guru Nanak Jayanti"],
   Eid: ["Eid al-Fitr", "Eid ul-Fitr"],
 };
+
+for (const event of septemberRecords) {
+  if (event.aliases)
+    festivalAliases[event.name] = [
+      ...new Set([...(festivalAliases[event.name] || []), ...event.aliases]),
+    ];
+}

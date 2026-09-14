@@ -12,10 +12,11 @@ export default function Preview() {
   const [busy, setBusy] = useState(false),
     [fallback, setFallback] = useState(false);
   const [w, h] = outputSize(data);
-  async function act(share = false) {
+  async function act(share = false, sizeOverride = null) {
     setBusy(true);
     try {
-      const c = await exportCanvas(data, images);
+      const exportData = sizeOverride ? { ...data, size: sizeOverride } : data;
+      const c = await exportCanvas(exportData, images);
       if (share) {
         const success = await sharePoster(c, data);
         if (!success) {
@@ -71,6 +72,15 @@ export default function Preview() {
         >
           <Share2 size={17} />
           Share poster
+        </button>
+      </div>
+      <div className="one-click-exports">
+        <span>ONE-CLICK HD FORMATS</span>
+        <button disabled={busy} onClick={() => act(false, "WhatsApp Status")}>
+          WhatsApp Status · 1080 × 1920
+        </button>
+        <button disabled={busy} onClick={() => act(false, "Instagram Post")}>
+          Instagram Square · 1080 × 1080
         </button>
       </div>
       {fallback && (

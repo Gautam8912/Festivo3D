@@ -1,7 +1,12 @@
+import { validCluster } from "../data/targeting";
 import { states, languages } from "../data/regions";
 import { businesses } from "../data/templates";
 export const PREF_KEY = "festivo3d-preferences-v2";
 export const emptyPreferences = {
+  country: "India",
+  cluster: "",
+  activeFestival: "ganesh-chaturthi",
+  activePreset: "ganesh-chaturthi",
   state: "",
   language: "en",
   businessCategory: "Clothing",
@@ -27,6 +32,13 @@ export function loadPreferences() {
   const p = readLocal(PREF_KEY, {});
   return {
     ...emptyPreferences,
+    cluster: validCluster(p.state, p.cluster),
+    activeFestival:
+      typeof p.activeFestival === "string"
+        ? p.activeFestival
+        : "ganesh-chaturthi",
+    activePreset:
+      typeof p.activePreset === "string" ? p.activePreset : "ganesh-chaturthi",
     state: states.some((s) => s.name === p.state) ? p.state : "",
     language: languages.some((l) => l.code === p.language) ? p.language : "en",
     businessCategory: businesses.includes(p.businessCategory)

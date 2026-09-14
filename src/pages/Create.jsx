@@ -44,6 +44,8 @@ export default function Create() {
       ...localizedCopy(occasion, p.language, amount),
       business,
       template: t.id,
+      eventDate: t.calendarDate || "",
+      artFinish: t.artFinish || "sculpted",
       colors: templatePalette(t),
       size,
     }),
@@ -73,6 +75,8 @@ export default function Create() {
       businessCategory: category,
       ...localizedCopy(occasion, p.language, amount),
       size,
+      eventDate: t.calendarDate || "",
+      artFinish: t.artFinish || "sculpted",
     });
   }
   return (

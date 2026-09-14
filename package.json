@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "node tests/flow.mjs",
-    "test:engine": "node tests/engine-errors.mjs"
+    "test:engine": "node tests/engine-errors.mjs",
+    "test:royal": "node tests/royal-calendar.mjs",
+    "test:calendar": "node tests/calendar-data.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

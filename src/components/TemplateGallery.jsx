@@ -27,11 +27,13 @@ export default function TemplateGallery({ full = false, onSelect }) {
     let arr = templates.filter(
       (t) =>
         (filter === "All Templates" ||
-          (filter === "Favourites"
-            ? favourites.includes(t.id)
-            : filter === "Recently Used"
-              ? recent.includes(t.id)
-              : t.category === filter)) &&
+          (filter === "Divine Atelier"
+            ? !!t.deity
+            : filter === "Favourites"
+              ? favourites.includes(t.id)
+              : filter === "Recently Used"
+                ? recent.includes(t.id)
+                : t.category === filter)) &&
         (!occasion || t.festival === occasion) &&
         (!category || t.businessCategories.includes(category)) &&
         `${t.festival} ${(festivalAliases[t.festival] || []).join(" ")} ${t.title} ${t.businessCategories.join(" ")} ${nativeFestival(t.festival, p.language)}`
@@ -135,6 +137,7 @@ export default function TemplateGallery({ full = false, onSelect }) {
       <div className="catalogue-tabs">
         {[
           "All Templates",
+          "Divine Atelier",
           "Festivals",
           "Business Offers",
           "Business Categories",

@@ -98,13 +98,11 @@ assert.equal(
     .count(),
   0,
 );
-await page
-  .getByLabel("Upload Product photo", { exact: true })
-  .setInputFiles({
-    name: "replacement.png",
-    mimeType: "image/png",
-    buffer: png,
-  });
+await page.getByLabel("Upload Product photo", { exact: true }).setInputFiles({
+  name: "replacement.png",
+  mimeType: "image/png",
+  buffer: png,
+});
 await page
   .getByRole("img", { name: "Uploaded Product photo", exact: true })
   .waitFor();
@@ -272,13 +270,11 @@ await page
   .click();
 await page.waitForURL("**/#editor");
 await page.getByRole("tab", { name: "Photos", exact: true }).click();
-await page
-  .getByLabel("Upload Product photo", { exact: true })
-  .setInputFiles({
-    name: "bad.txt",
-    mimeType: "text/plain",
-    buffer: Buffer.from("not an image"),
-  });
+await page.getByLabel("Upload Product photo", { exact: true }).setInputFiles({
+  name: "bad.txt",
+  mimeType: "text/plain",
+  buffer: Buffer.from("not an image"),
+});
 await page.getByRole("alert").waitFor();
 await page.goto(base + "/#templates");
 await page.getByLabel("Search templates").fill("Rath Yatra");

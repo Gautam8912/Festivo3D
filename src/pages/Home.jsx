@@ -1,3 +1,4 @@
+import CalendarTeaser from "../components/CalendarTeaser";
 import React from "react";
 import {
   Sparkles,
@@ -22,6 +23,7 @@ export default function Home({ onSelect }) {
     <>
       <Hero />
       <PersonalizedHome />
+      <CalendarTeaser />
       <TemplateGallery onSelect={onSelect} />
       <section className="how-section" id="how-it-works">
         <div className="section">

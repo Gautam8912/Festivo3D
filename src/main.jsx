@@ -1,3 +1,4 @@
+import { validCluster } from "./data/targeting";
 import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { X, CheckCircle2, AlertCircle } from "lucide-react";
@@ -22,7 +23,9 @@ import { localizedCopy } from "./i18n";
 import "./styles.css";
 import "./styles/fonts.css";
 import "./styles/studio.css";
+import "./styles/royal.css";
 const PosterEditor = lazy(() => import("./components/PosterEditor"));
+const Calendar = lazy(() => import("./pages/Calendar"));
 const Preview = lazy(() => import("./pages/Preview"));
 function initial() {
   const saved = loadDetails();
@@ -112,16 +115,29 @@ function App() {
     }, 200);
     return () => clearTimeout(id);
   }, [data]);
+  function updateTargeting(patch) {
+    const next = { ...preferences, ...patch, country: "India" };
+    next.cluster = validCluster(next.state, next.cluster);
+    next.setupCompleted = !!next.state;
+    setPreferences(next);
+    if (!writeLocal(PREF_KEY, next))
+      notify(
+        "Your targeting is active for this visit but could not be saved.",
+        "error",
+      );
+  }
   function savePreferences(p) {
     setPreferences(p);
     const t = templates.find((t) => t.id === data.template) || templates[0];
     setData((d) => ({
       ...d,
-      ...localizedCopy(
-        t.festival,
-        p.language,
-        Number(d.discount.match(/\d+/)?.[0] || 40),
-      ),
+      ...(d.language !== p.language
+        ? localizedCopy(
+            t.festival,
+            p.language,
+            Number(d.discount.match(/\d+/)?.[0] || 40),
+          )
+        : {}),
       businessCategory: p.businessCategory,
     }));
     if (!writeLocal(PREF_KEY, p))
@@ -131,7 +147,24 @@ function App() {
       );
     else notify("Preferences saved. Your next visit will feel right at home.");
   }
-  function remember(id) {
+  function remember(id, category) {
+    const t = templates.find((t) => t.id === id);
+    const next = {
+      ...preferences,
+      businessCategory: category || preferences.businessCategory,
+      ...(t?.calendarDate
+        ? {
+            activeFestival: t.festival.toLowerCase().replaceAll(" ", "-"),
+            activePreset: id,
+          }
+        : {}),
+    };
+    setPreferences(next);
+    if (!writeLocal(PREF_KEY, next))
+      notify(
+        "Your template is active but its preferences could not be saved.",
+        "error",
+      );
     const r = [id, ...recent.filter((x) => x !== id)].slice(0, 18);
     setRecent(r);
     if (!writeLocal("festivo3d-recent", r))
@@ -140,21 +173,6 @@ function App() {
   function selectTemplate(id, overrides = {}) {
     const t = templates.find((t) => t.id === id);
     if (!t) return;
-    if (
-      overrides.businessCategory &&
-      overrides.businessCategory !== preferences.businessCategory
-    ) {
-      const next = {
-        ...preferences,
-        businessCategory: overrides.businessCategory,
-      };
-      setPreferences(next);
-      if (!writeLocal(PREF_KEY, next))
-        notify(
-          "Business category is active for this visit but could not be saved.",
-          "error",
-        );
-    }
     setData((d) => ({
       ...d,
       ...localizedCopy(
@@ -163,11 +181,14 @@ function App() {
         Number(d.discount.match(/\d+/)?.[0] || 40),
       ),
       template: id,
+      eventDate: t.calendarDate || "",
+      artFinish: t.artFinish || "sculpted",
+      designStyle: "royal",
       colors: d.keepColours ? d.colors : templatePalette(t),
       businessCategory: preferences.businessCategory,
       ...overrides,
     }));
-    remember(id);
+    remember(id, overrides.businessCategory);
     location.hash = "editor";
   }
   function toggleFavourite(id) {
@@ -199,6 +220,7 @@ function App() {
     setImages,
     preferences,
     savePreferences,
+    updateTargeting,
     openPreferences: () => setPrefsOpen(true),
     notify,
     selectTemplate,
@@ -228,6 +250,8 @@ function App() {
           />
         ) : route === "preview" ? (
           <Preview />
+        ) : route === "calendar" ? (
+          <Calendar />
         ) : route === "create" ? (
           <Create />
         ) : route === "templates" ? (

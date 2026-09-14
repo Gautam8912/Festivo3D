@@ -5,7 +5,7 @@ export default function ColorPicker({ colors, onChange }) {
   return (
     <>
       <div className="palette-grid">
-        {palettes.map((p) => (
+        {[...palettes.slice(6), ...palettes.slice(0, 6)].map((p) => (
           <button
             key={p.name}
             title={p.name}

@@ -1,3 +1,5 @@
+import { divinePresets } from "../data/divinePresets";
+import { divineNames, quietWishes } from "./divineNames";
 import en from "./en";
 import hi from "./hi";
 import bn from "./bn";
@@ -29,13 +31,22 @@ export const translations = {
   sa,
 };
 export const nativeFestival = (name, lang = "en") =>
-  translations[lang]?.festivals[name] || name;
+  divineNames[lang]?.[name] || translations[lang]?.festivals[name] || name;
 export function localizedCopy(festival, language = "en", amount = 40) {
   const t = translations[language] || en;
   const name = nativeFestival(festival, language);
+  if (festival === "Pitru Paksha" || festival.includes("Shraddha"))
+    return {
+      language,
+      offer: quietWishes[language] || quietWishes.en,
+      discount: "",
+      tagline: name,
+      cta: "",
+      greeting: quietWishes[language] || quietWishes.en,
+    };
   return {
     language,
-    offer: `${name} ${t.offer}`,
+    offer: divinePresets[festival] ? name : `${name} ${t.offer}`,
     discount: t.discount.replace("{n}", String(amount)),
     tagline: t.tagline,
     cta: t.cta,

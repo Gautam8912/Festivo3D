@@ -1,7 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import {
   ArrowRight,
-  Play,
   Sparkles,
   Check,
   Lock,
@@ -11,15 +10,22 @@ import {
   Zap,
 } from "lucide-react";
 import PosterCanvas from "./PosterCanvas";
-import { defaults } from "../data/templates";
+import { defaults, palettes } from "../data/templates";
 export default function Hero() {
   const poster = useMemo(
     () => ({
       ...defaults,
-      offer: "Diwali Dhamaka",
+      template: "ganesh-chaturthi",
+      colors: palettes[7],
+      language: "hi",
+      eventDate: "2026-09-14",
+      designStyle: "royal",
+      offer: "गणेश चतुर्थी",
       business: "SHARMA FASHION",
-      tagline: "Light up your style. Celebrate the savings.",
-      discount: "UP TO 50% OFF",
+      tagline: "नई शुरुआत. खुशियों के साथ.",
+      greeting: "मंगलमूर्ति मोरया",
+      cta: "हार्दिक शुभकामनाएं",
+      discount: "उत्सव की खास पेशकश",
     }),
     [],
   );
@@ -34,21 +40,19 @@ export default function Hero() {
       <section className="hero section">
         <div className="hero-copy">
           <div className="hero-pill">
-            <span /> MADE FOR INDIA’S LOCAL BUSINESSES{" "}
+            <span /> THE DIVINE ATELIER · SEPTEMBER 2026{" "}
             <span className="india">🇮🇳</span>
           </div>
           <h1>
-            Create festival
+            Every celebration.
             <br />
-            <span className="gradient-text">posters.</span>
-            <br />
-            In minutes<span className="purple-dot">.</span>
+            <span className="gradient-text">A royal impression.</span>
             <span className="heading-spark">✧</span>
           </h1>
           <p>
-            Professional promotional posters for Indian businesses
-            <br className="desktop-break" /> — without Photoshop, design skills
-            or a backend.
+            Divine gold artwork. Your language. Your business.
+            <br className="desktop-break" /> Extraordinary festival posters,
+            crafted in your browser.
           </p>
           <div className="hero-actions">
             <a href="#create" className="button">
@@ -74,7 +78,12 @@ export default function Hero() {
               <span>👨🏻</span>
             </div>
             <div>
-              <div className="rating-stars">★★★★★</div>
+              <div
+                className="rating-stars"
+                style={{ fontSize: 10, letterSpacing: 1 }}
+              >
+                YOUR FESTIVAL. YOUR BRAND.
+              </div>
               <span>Made for the businesses that make India.</span>
             </div>
           </div>
@@ -91,7 +100,7 @@ export default function Hero() {
           <div className="hero-glow" />
           <div className="floating-spark spark-one">✦</div>
           <div className="floating-spark spark-two">✦</div>
-          <span className="floating-emoji gift">🎁</span>
+          <span className="floating-emoji gift royal-seal">✺</span>
           <span className="floating-emoji diya">🪔</span>
           <div className="back-poster back-one" />
           <div className="back-poster back-two" />
@@ -103,8 +112,8 @@ export default function Hero() {
               <Sparkles size={19} />
             </span>
             <div>
-              <strong>Your business. Your vibe.</strong>
-              <small>Beautifully, instantly.</small>
+              <strong>The Imperial Collection.</strong>
+              <small>Golden details. Divine design.</small>
             </div>
           </div>
           <div className="float-note note-bottom">

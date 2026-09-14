@@ -1,3 +1,4 @@
+import { renderRoyal } from "./royalRenderer";
 function canvasAspect(c) {
   return c.canvas.height / c.canvas.width;
 }
@@ -164,6 +165,14 @@ export function renderPoster(canvas, data, images = {}, resolution = 1) {
   canvas.height = Math.round(h * resolution);
   const c = canvas.getContext("2d");
   if (!c) throw new Error("Canvas is not supported in this browser.");
+  if (data.designStyle !== "classic")
+    return renderRoyal(
+      c,
+      canvas,
+      data,
+      images,
+      templates.find((t) => t.id === data.template) || templates[0],
+    );
   c.scale(canvas.width / 1080, canvas.height / 1080);
   c._photoShadow = data.shadow;
   const t = templates.find((t) => t.id === data.template) || templates[0],

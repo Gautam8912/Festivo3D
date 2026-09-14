@@ -1,3 +1,4 @@
+import { clustersForState } from "../data/targeting";
 import React, { useState } from "react";
 import {
   MapPin,
@@ -38,6 +39,7 @@ export default function Preferences({ onClose }) {
         setDraft((d) => ({
           ...d,
           state: state.name,
+          cluster: "",
           language: state.language,
         }));
         setHint(
@@ -89,6 +91,7 @@ export default function Preferences({ onClose }) {
               setDraft({
                 ...draft,
                 state: state?.name || "",
+                cluster: "",
                 language: state?.language || "en",
               });
               setHint("");
@@ -116,6 +119,20 @@ export default function Preferences({ onClose }) {
             {locationHint}
           </p>
         )}
+        <label className="field">
+          Regional cluster (optional)
+          <select
+            aria-label="Preference regional cluster"
+            value={draft.cluster || ""}
+            disabled={!draft.state}
+            onChange={(e) => setDraft({ ...draft, cluster: e.target.value })}
+          >
+            <option value="">Whole state</option>
+            {clustersForState(draft.state).map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
+        </label>
         <label className="field">
           <Languages size={14} /> Which language should your posters use?
           <select

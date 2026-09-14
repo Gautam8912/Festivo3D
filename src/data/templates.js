@@ -1,3 +1,5 @@
+import { divinePresets } from "./divinePresets";
+import { septemberRecords } from "./septemberObservances";
 import { regionalFestivals, languages } from "./regions";
 export const festivals = [
   "Diwali",
@@ -50,6 +52,9 @@ export const festivals = [
   "Bihu",
   "Magh Bihu",
 ];
+for (const event of septemberRecords) {
+  if (!festivals.includes(event.name)) festivals.push(event.name);
+}
 export const offers = [
   "Sunday Sale",
   "Mega Sale",
@@ -135,6 +140,46 @@ export const palettes = [
     button: "#207a99",
   },
 ];
+palettes.push(
+  ...[
+    {
+      name: "Royal Velvet Maroon",
+      bg: "#2A0812",
+      heading: "#ffe2a8",
+      badge: "#cba057",
+      text: "#f3e7d0",
+      border: "#ba9156",
+      button: "#25141c",
+    },
+    {
+      name: "Imperial Navy",
+      bg: "#040B22",
+      heading: "#ffdf9c",
+      badge: "#d4aa5d",
+      text: "#eeeadc",
+      border: "#b99a63",
+      button: "#0c152d",
+    },
+    {
+      name: "Emerald Forest",
+      bg: "#042215",
+      heading: "#f8dfa5",
+      badge: "#c7a365",
+      text: "#e8eddc",
+      border: "#ad955b",
+      button: "#112d21",
+    },
+    {
+      name: "Dark Saffron Glow",
+      bg: "#3A1200",
+      heading: "#ffe9b6",
+      badge: "#e1b975",
+      text: "#fff0cf",
+      border: "#c19553",
+      button: "#29170b",
+    },
+  ],
+);
 const special = {
   Diwali: ["diwali", "Diwali Dhamaka", 1],
   Holi: ["holi", "Rang Barse, Offers Barse!", 3],
@@ -177,6 +222,7 @@ export const templates = [...festivals, ...offers, ...businesses].map(
     return {
       id: name.toLowerCase().replaceAll(" ", "-"),
       festival: name,
+      calendarDate: septemberRecords.find((e) => e.name === name)?.date || "",
       title,
       layout: motifs[name] ? "arch" : layout,
       motif: motifs[name],
@@ -195,6 +241,7 @@ export const templates = [...festivals, ...offers, ...businesses].map(
         .filter(([, names]) => names.includes(name))
         .map(([state]) => state),
       languages: languages.map((l) => l.code),
+      collection: "Royal Atelier",
       premium: false,
     };
   },
@@ -222,6 +269,48 @@ for (const occasion of [
       businessCategories: [category, "General Store", "Home Business"],
     });
   }
+}
+for (const t of templates) {
+  if (divinePresets[t.festival]) {
+    const d = divinePresets[t.festival];
+    Object.assign(t, {
+      deity: d.deity,
+      solemn: !!d.solemn,
+      collection: "Divine Atelier",
+      palette: d.palette,
+      artFinish: "sculpted",
+    });
+    if (!t.id.endsWith("-fashion") && !t.id.endsWith("-gold")) {
+      t.title = d.title || t.festival + " · Quiet Devotion";
+      t.name = t.title;
+    }
+  }
+}
+for (const occasion of [
+  "Ganesh Chaturthi",
+  "Hartalika Teej",
+  "Vishwakarma Puja",
+  "Janmashtami",
+  "Radha Ashtami",
+  "Anant Chaturdashi",
+  "Chhath Puja",
+]) {
+  const base = templates.find((t) => t.festival === occasion);
+  for (const [suffix, title, palette, artFinish] of [
+    ["temple", "Temple Engraving", 8, "engraved"],
+    ["heritage", "Heritage Bronze", 6, "antique"],
+  ])
+    templates.push({
+      ...base,
+      id: base.id + "-" + suffix,
+      title: occasion + " · " + title,
+      name: occasion + " · " + title,
+      palette,
+      artFinish,
+    });
+}
+for (const t of templates) {
+  if (t.palette < 6) t.palette = 6 + (t.palette % 4);
 }
 export const featuredIds = [
   "diwali",
@@ -255,6 +344,12 @@ export const phrases = {
   "Chhath Puja": ["Chhath Puja Special", "Chhath Festival Offer"],
 };
 export const defaults = {
+  designStyle: "royal",
+  metallicHeading: true,
+  artFinish: "sculpted",
+  aura: 70,
+  deityScale: 100,
+  eventDate: "",
   business: "Sharma Fashion",
   ownerName: "",
   whatsapp: "",
@@ -280,7 +375,7 @@ export const defaults = {
   tagline: "Celebrate more. Spend less.",
   template: "diwali",
   size: "Instagram Post",
-  colors: palettes[1],
+  colors: palettes[6],
   font: "Georgia",
   fontSize: 85,
   bold: true,
@@ -291,7 +386,7 @@ export const defaults = {
 
 export function templatePalette(t) {
   const p = { ...palettes[t.palette] };
-  if (t.layout === "holi")
+  if (!t.collection && t.layout === "holi")
     return {
       ...p,
       bg: "#fff2d9",
@@ -299,7 +394,8 @@ export function templatePalette(t) {
       text: "#563870",
       button: "#542275",
     };
-  if (t.layout === "sale") return { ...p, heading: "#372057", text: "#513174" };
+  if (!t.collection && t.layout === "sale")
+    return { ...p, heading: "#372057", text: "#513174" };
   return p;
 }
 
